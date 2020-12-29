@@ -100,9 +100,41 @@ public class Login extends AppCompatActivity {
         deviceManages = new ArrayList<>();
         //deviceManages.add(new DeviceManage(1,"357798080499328",0,"null"));
 
-        checkDivicd();
+        //checkDivicd();
+        if (!IMEINumber.equals("")) {
+            Handler handler = new Handler();
+            handler.post(new Runnable() {
+                @Override
+                public void run() {
+                    //Starting Write and Read data with URL
+                    //Creating array for parameters
+                    String[] field = new String[1];
+                    field[0] = "imei_p";
+                    //Creating array for data
+                    String[] data = new String[1];
+                    data[0] = IMEINumber;
+                    PutData putData = new PutData("http://192.168.1.109/Hospital/imeiPublic.php", "POST", field, data); //網址要改成自己的php檔位置及自己的ip
+                    if (putData.startPut()) {
+                        if (putData.onComplete()) {
+                            String result = putData.getResult();
+                            if (result.equals("Get IMEI Public Success")) {
+                                imei.setText("公雞公雞呱呱呱");
+                                touchID.setVisibility(View.INVISIBLE);
+                                faceID.setVisibility(View.INVISIBLE);
+                                lololo();
+                            } else {
+                                mlinearLayout.setVisibility(View.INVISIBLE);
+                                imei.setText(IMEINumber);
+                            }
+                        }
+                    }
+                }
+            });
+        }
     }
 
+
+/*
     private void checkDivicd() {
         Log.d(TAG,"DeviceManage : "+IMEINumber);
         int i;
@@ -117,10 +149,10 @@ public class Login extends AppCompatActivity {
                 imei.setText(IMEINumber);
             }
         }
-    }
+    }*/
 
 //    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
-    private void lololo() {
+    public void lololo() {
         List<HotUserModel> hotUserList = new ArrayList<>();
         hotUserList.add(new HotUserModel(1,"45478",null,"ChiaW","000000"));
         hotUserList.add(new HotUserModel(2,"59487",null,"LanLan","000000"));

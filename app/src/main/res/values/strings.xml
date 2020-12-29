@@ -34,7 +34,7 @@
     <string name="sing_up">註冊</string>
     <string name="forget_passward">忘記密碼</string>
 
-    <string name="idlogin_php">http://192.168.137.1/Hospital/idlogin.php</string>
-    <string name="login_php">http://192.168.137.1/Hospital/login.php</string>
+    <string name="idlogin_php">http://192.168.1.109/Hospital/idlogin.php</string>
+    <string name="login_php">http://192.168.1.109/Hospital/login.php</string>
 
 </resources>

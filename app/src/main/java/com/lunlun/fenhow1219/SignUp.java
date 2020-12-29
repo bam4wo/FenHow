@@ -152,13 +152,13 @@ public class SignUp extends AppCompatActivity {
                                 Toast.makeText(SignUp.this, "密碼不一致！", Toast.LENGTH_LONG).show();
                                 break;
                             }
-                            PutData putData = new PutData("https://192.168.137.1/Hospital/signup.php", "POST", field, data); //網址要改成自己的php檔位置及自己的ip
+                            PutData putData = new PutData("https://192.168.1.109/Hospital/signup.php", "POST", field, data); //網址要改成自己的php檔位置及自己的ip
                             if (putData.startPut()) {
                                 if (putData.onComplete()) {
                                     progressBar.setVisibility(View.GONE);
                                     String result = putData.getResult();
                                     if (result.equals("Sign Up Success")) {
-                                        Toast.makeText(getApplicationContext(), result, Toast.LENGTH_LONG).show();
+                                        Toast.makeText(getApplicationContext(), "註冊成功", Toast.LENGTH_LONG).show();
                                         Intent intent = new Intent(getApplicationContext(), Login.class);
                                         startActivity(intent);
                                         finish();
@@ -181,13 +181,13 @@ public class SignUp extends AppCompatActivity {
                                 String[] data = new String[2];
                                 data[0] = employee_id;
                                 data[1] = IMEINumber;
-                                PutData putData = new PutData("https://192.168.137.1/Hospital/Getimei.php", "POST", field, data); //網址要改成自己的php檔位置及自己的ip
+                                PutData putData = new PutData("https://192.168.1.109/Hospital/Getimei.php", "POST", field, data); //網址要改成自己的php檔位置及自己的ip
                                 if (putData.startPut()) {
                                     if (putData.onComplete()) {
                                         progressBar.setVisibility(View.GONE);
                                         String result = putData.getResult();
                                         if (result.equals("Get IMEI Success")) {
-                                            Toast.makeText(getApplicationContext(), result, Toast.LENGTH_LONG).show();
+                                            //Toast.makeText(getApplicationContext(), result, Toast.LENGTH_LONG).show();
                                             Intent intent = new Intent(getApplicationContext(), Login.class);
                                             startActivity(intent);
                                             finish();
