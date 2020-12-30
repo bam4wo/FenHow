@@ -46,6 +46,8 @@ public class SignUp extends AppCompatActivity {
     TextView imei;
     private static final int REQUEST_CODE = 101;
 
+    String emailPattern = "[a-zA-Z0-9._-]+@[a-z]+\\.+[a-z]+";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -144,28 +146,36 @@ public class SignUp extends AppCompatActivity {
                             data[1] = email;
                             data[2] = password;
                             data[3] = password2;
-                            //判斷密碼跟確認密碼是否一致(絹)
-                            while (!data[2].equals(data[3])) {
-                                textInputEditTextPassword2.setText("");
-                                field[2] = "";
-                                field[3] = "";
-                                Toast.makeText(SignUp.this, "密碼不一致！", Toast.LENGTH_LONG).show();
-                                break;
-                            }
-                            PutData putData = new PutData("https://192.168.1.109/Hospital/signup.php", "POST", field, data); //網址要改成自己的php檔位置及自己的ip
-                            if (putData.startPut()) {
-                                if (putData.onComplete()) {
-                                    progressBar.setVisibility(View.GONE);
-                                    String result = putData.getResult();
-                                    if (result.equals("Sign Up Success")) {
-                                        Toast.makeText(getApplicationContext(), "註冊成功", Toast.LENGTH_LONG).show();
-                                        Intent intent = new Intent(getApplicationContext(), Login.class);
-                                        startActivity(intent);
-                                        finish();
-                                    } else {
-                                        Toast.makeText(getApplicationContext(), result, Toast.LENGTH_LONG).show();
+                            if(email.trim().matches(emailPattern)) {
+                                if (password.length() < 8) {
+                                    Toast.makeText(getApplicationContext(), "密碼不可小於8個字", Toast.LENGTH_LONG).show();
+                                } else {
+                                    //判斷密碼跟確認密碼是否一致(絹)
+                                    while (!data[2].equals(data[3])) {
+                                        textInputEditTextPassword2.setText("");
+                                        field[2] = "";
+                                        field[3] = "";
+                                        Toast.makeText(SignUp.this, "密碼不一致！", Toast.LENGTH_LONG).show();
+                                        break;
+                                    }
+                                    PutData putData = new PutData("https://192.168.1.109/Hospital/signup.php", "POST", field, data); //網址要改成自己的php檔位置及自己的ip
+                                    if (putData.startPut()) {
+                                        if (putData.onComplete()) {
+                                            progressBar.setVisibility(View.GONE);
+                                            String result = putData.getResult();
+                                            if (result.equals("Sign Up Success")) {
+                                                Toast.makeText(getApplicationContext(), "註冊成功", Toast.LENGTH_LONG).show();
+                                                Intent intent = new Intent(getApplicationContext(), Login.class);
+                                                startActivity(intent);
+                                                finish();
+                                            } else {
+                                                Toast.makeText(getApplicationContext(), result, Toast.LENGTH_LONG).show();
+                                            }
+                                        }
                                     }
                                 }
+                            }else {
+                                Toast.makeText(getApplicationContext(),"請輸入有效的email", Toast.LENGTH_SHORT).show();
                             }
                         }
                     });
@@ -192,7 +202,7 @@ public class SignUp extends AppCompatActivity {
                                             startActivity(intent);
                                             finish();
                                         } else {
-                                            Toast.makeText(getApplicationContext(), result, Toast.LENGTH_LONG).show();
+                                            //Toast.makeText(getApplicationContext(), result, Toast.LENGTH_LONG).show();
                                         }
                                     }
                                 }
@@ -200,7 +210,7 @@ public class SignUp extends AppCompatActivity {
                         });
                     }
                 } else {
-                    Toast.makeText(getApplicationContext(), "All fields require", Toast.LENGTH_LONG).show();
+                    //Toast.makeText(getApplicationContext(), "All fields require", Toast.LENGTH_LONG).show();
                 }
             }
         });

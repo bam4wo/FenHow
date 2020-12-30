@@ -43,6 +43,7 @@ import android.widget.Toast;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
+import com.lunlun.fenhow1219.ui.home.HomeFragment;
 import com.vishnusivadas.advanced_httpurlconnection.PutData;
 
 import java.security.SecureRandom;
@@ -118,7 +119,7 @@ public class Login extends AppCompatActivity {
                         if (putData.onComplete()) {
                             String result = putData.getResult();
                             if (result.equals("Get IMEI Public Success")) {
-                                imei.setText("公雞公雞呱呱呱");
+                                imei.setText("近期登入");
                                 touchID.setVisibility(View.INVISIBLE);
                                 faceID.setVisibility(View.INVISIBLE);
                                 lololo();
@@ -227,7 +228,7 @@ public class Login extends AppCompatActivity {
         }
     };
 
-    private  void  loginSuccess(){
+    private void loginSuccess(){
         if (rememberme_checkBox_statue) {
             Log.d(TAG, "rememberme_checkBox_statue is :" + rememberme_checkBox_statue);
             SharedPreferences settingpref = getSharedPreferences("test", MODE_PRIVATE);
@@ -286,7 +287,7 @@ public class Login extends AppCompatActivity {
 //            textInputEditTextIDorEmail.setText(setting.getString("PREF_USERID", ""));
 //        }
 
-        //還沒有帳號嗎？點此註冊
+        //點此註冊
         textViewSignUp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -372,6 +373,7 @@ public class Login extends AppCompatActivity {
         } catch (Exception ignored) {
         }
     }
+
 
     //取得imei
     public void getImei(){
