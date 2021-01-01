@@ -31,7 +31,7 @@
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/poppinsbold"
                 android:gravity="center"
-                android:text="signup"
+                android:text="@string/sing_up"
                 android:textColor="?attr/colorSecondaryVariant"
                 android:textSize="18sp"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -168,7 +168,7 @@
                 tools:targetApi="jelly_bean" />
 
             <CheckBox
-                android:id="@+id/checkBox"
+                android:id="@+id/bindcheck"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="24dp"

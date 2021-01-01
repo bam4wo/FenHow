@@ -63,7 +63,7 @@ public class SignUp extends AppCompatActivity {
         //隱藏密碼
         textInputEditTextPassword.setTransformationMethod(PasswordTransformationMethod.getInstance());
         textInputEditTextPassword2.setTransformationMethod(PasswordTransformationMethod.getInstance());
-        getImei();
+        //getImei();
         handleSSLHandshake(); //呼叫忽略https的證書校驗方法
 
         CheckBox passcheck = findViewById(R.id.passcheck);
@@ -96,18 +96,18 @@ public class SignUp extends AppCompatActivity {
             }
         });
 
-//        CheckBox bindcheck = findViewById(R.id.bindcheck);
-//        bindcheck.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-//            @Override
-//            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-//                // TODO Auto-generated method stub
-//                if (isChecked) {
-//                    getImei();
-//                } else {
-//                    IMEINumber.equals("");
-//                }
-//            }
-//        });
+        CheckBox bindcheck = findViewById(R.id.bindcheck);
+/*      bindcheck.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+           @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                // TODO Auto-generated method stub
+                if (isChecked) {
+                    getImei();
+                } else {
+
+                }
+            }
+        });*/
 
         //點此登入
         textViewLogin.setOnClickListener(new View.OnClickListener() {
@@ -122,11 +122,107 @@ public class SignUp extends AppCompatActivity {
         buttonSignUp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                String employee_id, email, password, password2;
+                employee_id = String.valueOf(textInputEditTextEmployeeId.getText());
+                email = String.valueOf(textInputEditTextEmail.getText());
+                password = String.valueOf(textInputEditTextPassword.getText());
+                password2 = String.valueOf(textInputEditTextPassword2.getText());
+
+                if (!employee_id.equals("") && !email.equals("") && !password.equals("") && !password2.equals("")) {
+                    if(email.trim().matches(emailPattern)) {
+                        if (password.length() >= 8) {
+                            progressBar.setVisibility(View.VISIBLE);
+                            Handler handler = new Handler();
+                            handler.post(new Runnable() {
+                                @Override
+                                public void run() {
+                                    //Starting Write and Read data with URL
+                                    //Creating array for parameters
+                                    String[] field = new String[3];
+                                    field[0] = "employee_id";
+                                    field[1] = "email";
+                                    field[2] = "password";
+                                    //Creating array for data
+                                    String[] data = new String[4];
+                                    data[0] = employee_id;
+                                    data[1] = email;
+                                    data[2] = password;
+                                    data[3] = password2;
+                                    //判斷密碼跟確認密碼是否一致(絹)
+                                    while (!data[2].equals(data[3])) {
+                                        textInputEditTextPassword2.setText("");
+                                        field[2] = "";
+                                        field[3] = "";
+                                        Toast.makeText(SignUp.this, "密碼不一致！", Toast.LENGTH_LONG).show();
+                                        break;
+                                    }
+                                    PutData putData = new PutData("https://192.168.1.109/Hospital/signup.php", "POST", field, data); //網址要改成自己的php檔位置及自己的ip
+                                    if (putData.startPut()) {
+                                        if (putData.onComplete()) {
+                                            progressBar.setVisibility(View.GONE);
+                                            String result = putData.getResult();
+                                            if (result.equals("Sign Up Success")) {
+                                                Toast.makeText(getApplicationContext(), "註冊成功", Toast.LENGTH_LONG).show();
+                                                Intent intent = new Intent(getApplicationContext(), Login.class);
+                                                startActivity(intent);
+                                                finish();
+                                            } else {
+                                                Toast.makeText(getApplicationContext(), result, Toast.LENGTH_LONG).show();
+                                            }
+                                        }
+                                    }
+                                }
+                            });
+                            //imei傳入資料庫
+                            if(bindcheck.isChecked()){
+                                getImei();
+                                Handler handler2 = new Handler();
+                                handler2.post(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        String[] field = new String[2];
+                                        field[0] = "employee_id";
+                                        field[1] = "imei";
+                                        String[] data = new String[2];
+                                        data[0] = employee_id;
+                                        data[1] = IMEINumber;
+                                        PutData putData = new PutData("https://192.168.1.109/Hospital/Getimei.php", "POST", field, data); //網址要改成自己的php檔位置及自己的ip
+                                        if (putData.startPut()) {
+                                            if (putData.onComplete()) {
+                                                progressBar.setVisibility(View.GONE);
+                                                String result = putData.getResult();
+                                                if (result.equals("Get IMEI Success")) {
+                                                    //Toast.makeText(getApplicationContext(), result, Toast.LENGTH_LONG).show();
+                                                    Intent intent = new Intent(getApplicationContext(), Login.class);
+                                                    startActivity(intent);
+                                                    finish();
+                                                } else {
+                                                    //Toast.makeText(getApplicationContext(), result, Toast.LENGTH_LONG).show();
+                                                }
+                                            }
+                                        }
+                                    }
+                                });
+                            }
+                        } else {
+                            Toast.makeText(getApplicationContext(), "密碼不可小於8個字", Toast.LENGTH_LONG).show();
+                        }
+                    }else {
+                        Toast.makeText(getApplicationContext(),"請輸入有效的email", Toast.LENGTH_SHORT).show();
+                    }
+                }
+            }
+        });
+/*
+        buttonSignUp.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
                 String employee_id, email, password, password2, bindimei;
                 employee_id = String.valueOf(textInputEditTextEmployeeId.getText());
                 email = String.valueOf(textInputEditTextEmail.getText());
                 password = String.valueOf(textInputEditTextPassword.getText());
                 password2 = String.valueOf(textInputEditTextPassword2.getText());
+
 
                 if (!employee_id.equals("") && !email.equals("") && !password.equals("") && !password2.equals("")) {
                     progressBar.setVisibility(View.VISIBLE);
@@ -213,7 +309,7 @@ public class SignUp extends AppCompatActivity {
                     //Toast.makeText(getApplicationContext(), "All fields require", Toast.LENGTH_LONG).show();
                 }
             }
-        });
+        });*/
 
     }
 
