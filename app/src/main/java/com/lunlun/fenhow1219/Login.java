@@ -1,7 +1,6 @@
 package com.lunlun.fenhow1219;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
 import androidx.constraintlayout.widget.ConstraintLayout;
@@ -15,21 +14,15 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.hardware.fingerprint.FingerprintManager;
-import android.os.Build;
 import android.os.Bundle;
 import android.os.CancellationSignal;
 import android.os.Handler;
 import android.telephony.TelephonyManager;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.text.method.HideReturnsTransformationMethod;
 import android.text.method.PasswordTransformationMethod;
 import android.util.Log;
-import android.util.Patterns;
-import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
@@ -43,7 +36,6 @@ import android.widget.Toast;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
-import com.lunlun.fenhow1219.ui.home.HomeFragment;
 import com.vishnusivadas.advanced_httpurlconnection.PutData;
 
 import java.security.SecureRandom;
@@ -57,8 +49,6 @@ import javax.net.ssl.SSLContext;
 import javax.net.ssl.SSLSession;
 import javax.net.ssl.TrustManager;
 import javax.net.ssl.X509TrustManager;
-
-import static android.util.Patterns.EMAIL_ADDRESS;
 
 public class Login extends AppCompatActivity {
 
@@ -215,6 +205,9 @@ public class Login extends AppCompatActivity {
 //                                loginSuccess();
                                 getIntent().putExtra("USER_NAME", textInputEditTextIDorEmail.getText().toString());
                                 setResult(Activity.RESULT_OK, getIntent());
+                                Intent intent = new Intent(Login.this,Password.class);
+                                intent.putExtra("user",userInput);
+                                startActivity(intent);
                                 finish();
                             } else {
                                 Toast.makeText(getApplicationContext(), "帳號或密碼錯誤", Toast.LENGTH_LONG).show();
@@ -244,9 +237,9 @@ public class Login extends AppCompatActivity {
 
 
     private void findViews() {
-        textInputEditTextIDorEmail = findViewById(R.id.IDorEmail);
+        textInputEditTextIDorEmail = findViewById(R.id.old);
         textInputEditTextPassword = findViewById(R.id.password);
-        buttonLogin = findViewById(R.id.buttonLogin);
+        buttonLogin = findViewById(R.id.button);
         textViewSignUp = findViewById(R.id.signUpText);
         progressBar = findViewById(R.id.progress);
         textInputLayout = findViewById(R.id.textInputLayoutEmployeeId);

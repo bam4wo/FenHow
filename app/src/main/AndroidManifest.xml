@@ -5,7 +5,6 @@
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
     <uses-permission android:name="android.permission.USE_FINGERPRINT" />
 
-
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -13,13 +12,13 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.FenHow1219">
-        <activity android:name=".Login"></activity>
+        <activity android:name=".Password"></activity>
+        <activity android:name=".Login" />
         <activity android:name=".SignUp" />
         <activity
             android:name=".MainActivity"
             android:label="@string/app_name"
-            android:theme="@style/Theme.FenHow1219.NoActionBar">
-        </activity>
+            android:theme="@style/Theme.FenHow1219.NoActionBar"></activity>
         <activity android:name=".WelcomeActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
